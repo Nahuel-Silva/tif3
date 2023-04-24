@@ -1,9 +1,11 @@
-from cargar_fotos import Upload_photos
+from cargar_fotos import *
 from deteccion import *
+from postural import *
 
 def main():
     list_photos = Upload_photos().upload()
-    Detection().detection_color(list_photos)
+    list_mask = Detection().detection_color(list_photos)
+    Postural_change().shoulders_difference(list_mask)
 
 
 

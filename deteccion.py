@@ -5,6 +5,8 @@ import numpy as np
 class Detection():
 
     def detection_color(self, images):
+
+        list_mask = []
         
         for img in images:
 
@@ -17,7 +19,6 @@ class Detection():
 
             filter_image = cv2.bitwise_and(img, img, mask=mask_green)
 
-            cv2.imshow("result", filter_image)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
-        
+            list_mask.append(filter_image)
+
+        return list_mask
