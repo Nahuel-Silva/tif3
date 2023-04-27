@@ -15,10 +15,8 @@ class Upload_photos():
         for pic in os.listdir(path_photos):
             
             photo = cv2.imread(os.path.join(path_photos, pic))
-            pho_resized = cv2.resize(photo, (800, 600))
-            pho_bgr = cv2.cvtColor(pho_resized, cv2.COLOR_RGB2BGR)
+            pho_bgr = cv2.cvtColor(photo, cv2.COLOR_RGB2BGR)
             pho_blurred = cv2.GaussianBlur(pho_bgr, (5,5), 0)
-
             list_images.append(pho_blurred)
 
         return list_images
