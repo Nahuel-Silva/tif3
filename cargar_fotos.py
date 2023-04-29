@@ -8,7 +8,6 @@ class Upload_photos():
     def upload(self):
         
         list_images = []
-        list_ppi = []
 
         path_photos = "/home/nahuel/facultad/tif3/fotos paciente"
 

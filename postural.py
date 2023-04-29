@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import math
 
 class Postural_change():
 
@@ -30,16 +29,22 @@ class Postural_change():
                 cord_centroide.append((cx,cy))
 
             # Dibujo una linea de centroide a centroide de cada uno de los lados
-            cv2.line(mask, cord_centroide[0], cord_centroide[3], (255, 255, 255), 2)
-            cv2.line(mask, cord_centroide[1], cord_centroide[2], (255, 255, 255), 2)
+            cv2.line(mask, cord_centroide[0], cord_centroide[2], (255, 255, 255), 2)
+            cv2.line(mask, cord_centroide[1], cord_centroide[3], (255, 255, 255), 2)
             
-            dist_centroides_der = np.sqrt((cord_centroide[3][0] - cord_centroide[0][0])**2 + (cord_centroide[3][1] - cord_centroide[0][1])**2)
-            dist_centroides_izq = np.sqrt((cord_centroide[2][0] - cord_centroide[1][0])**2 + (cord_centroide[2][1] - cord_centroide[1][1])**2)
-            original_resolution = 460
-            cm_distance_der = (dist_centroides_der / original_resolution) * 2.54
-            cm_distance_izq = (dist_centroides_izq / original_resolution) * 2.54
+            dist_centroides_der = np.sqrt((cord_centroide[2][0] - cord_centroide[0][0])**2 + (cord_centroide[2][1] - cord_centroide[0][1])**2)
+            dist_centroides_izq = np.sqrt((cord_centroide[3][0] - cord_centroide[1][0])**2 + (cord_centroide[3][1] - cord_centroide[1][1])**2)
 
-            # print(pixel_distance)
+            ancho,alto,canales = mask.shape
+
+            #Altura de la persona
+            altura_pers = 168
+
+            cm_distance_der = (dist_centroides_der*altura_pers)/alto
+            cm_distance_izq = (dist_centroides_izq*altura_pers)/alto
+
+            # cm_distance_der = (dist_centroides_der / original_resolution) * 2.54
+            # cm_distance_izq = (dist_centroides_izq / original_resolution) * 2.54
 
             print(f"Distancia del hombro der a cirtura der: {cm_distance_der}cm")
             print(f"Distancia del hombro izq a cirtura izq: {cm_distance_izq}cm")
