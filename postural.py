@@ -3,10 +3,10 @@ import numpy as np
 
 class Postural_change():
 
-    def shoulders_difference(self, list_mask):
+    def shoulders_difference(self, list_mask, altura_pers):
 
         cord_centroide = []
-        points = []
+        mask_l = []
 
         for mask in list_mask:
 
@@ -35,21 +35,29 @@ class Postural_change():
             dist_centroides_der = np.sqrt((cord_centroide[2][0] - cord_centroide[0][0])**2 + (cord_centroide[2][1] - cord_centroide[0][1])**2)
             dist_centroides_izq = np.sqrt((cord_centroide[3][0] - cord_centroide[1][0])**2 + (cord_centroide[3][1] - cord_centroide[1][1])**2)
 
-            ancho,alto,canales = mask.shape
-
             #Altura de la persona
             altura_pers = 168
 
-            cm_distance_der = (dist_centroides_der*altura_pers)/alto
-            cm_distance_izq = (dist_centroides_izq*altura_pers)/alto
+            cm_distance_der = (dist_centroides_der*altura_pers)/altura_pers
+            cm_distance_izq = (dist_centroides_izq*altura_pers)/altura_pers
 
-            # cm_distance_der = (dist_centroides_der / original_resolution) * 2.54
-            # cm_distance_izq = (dist_centroides_izq / original_resolution) * 2.54
+            mask_l.append(mask)
 
-            print(f"Distancia del hombro der a cirtura der: {cm_distance_der}cm")
-            print(f"Distancia del hombro izq a cirtura izq: {cm_distance_izq}cm")
+            if cm_distance_izq < (cm_distance_der - 1.5) or cm_distance_izq > (cm_distance_der + 1.5):
+                print(f"Distancia del hombro der a cirtura der: {cm_distance_der}cm")
+                print(f"Distancia del hombro izq a cirtura izq: {cm_distance_izq}cm")
+                print("Deteccion de posible diferencia de hombro")
+                a = "Deteccion de posible diferencia de hombro"
+                return mask_l, cm_distance_der, cm_distance_izq, a
+            else:
+                print(f"Distancia del hombro der a cirtura der: {cm_distance_der}cm")
+                print(f"Distancia del hombro izq a cirtura izq: {cm_distance_izq}cm")
+                print("No se detecto diferencia de hombro")
+                a = "No se detecto diferencia de hombro"
+                return mask_l, cm_distance_der, cm_distance_izq, a
+                
 
-            cv2.namedWindow('Linea de contorno a contorno', cv2.WINDOW_NORMAL)
-            cv2.imshow('Linea de contorno a contorno', mask)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
+            # cv2.namedWindow('Linea de contorno a contorno', cv2.WINDOW_NORMAL)
+            # cv2.imshow('Linea de contorno a contorno', mask)
+            # cv2.waitKey(0)
+            # cv2.destroyAllWindows()

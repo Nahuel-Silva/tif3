@@ -42,14 +42,15 @@ class Person():
 
             distancia = cv2.norm(pt1, pt2)
 
-            print(distancia)
+            # print(distancia)
 
-            height, width, channels = img.shape
+            # height, width, channels = img.shape
 
-            print(height)
+            # print(height)
 
             # Mostrar la imagen con la máscara y el rectángulo dibujado
-            cv2.namedWindow('Máscara', cv2.WINDOW_NORMAL)
-            cv2.imshow('Máscara', mask)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
+            # cv2.namedWindow('Máscara', cv2.WINDOW_NORMAL)
+            # cv2.imshow('Máscara', mask)
+            # cv2.waitKey(0)
+            # cv2.destroyAllWindows()
+            return distancia
