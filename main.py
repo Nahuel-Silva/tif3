@@ -10,11 +10,11 @@ def main():
     list_mask = Detection().detection_color(list_photos)
     mask_l, distance_der, distance_izq, a = Postural_change().shoulders_difference(list_mask, altura_obj)
     resp = input("Quiere exportar la imagen en pdf?(si o no): ")
-    name = input("Nombre del paciente: ")
     if resp == "si":
+        name = input("Nombre del paciente: ")
         Export.generate_pdf(list_photos, mask_l, distance_der, distance_izq, a, name)
     else:
-        exit()
+        exit(0)
 
 
 
