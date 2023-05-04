@@ -3,7 +3,7 @@ import numpy as np
 
 class Postural_change():
 
-    def shoulders_difference(self, list_mask, altura_pers):
+    def shoulders_difference(self, list_mask, altura_objPix):
 
         cord_centroide = []
         mask_l = []
@@ -11,8 +11,6 @@ class Postural_change():
         for mask in list_mask:
 
             mask_gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
-
-            # ret, thresh = cv2.threshold(mask_gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
             contours, hierarchy = cv2.findContours(mask_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -36,10 +34,10 @@ class Postural_change():
             dist_centroides_izq = np.sqrt((cord_centroide[3][0] - cord_centroide[1][0])**2 + (cord_centroide[3][1] - cord_centroide[1][1])**2)
 
             #Altura de la persona
-            altura_pers = 168
+            altura_obj = 168 #centimetros de la regla
 
-            cm_distance_der = (dist_centroides_der*altura_pers)/altura_pers
-            cm_distance_izq = (dist_centroides_izq*altura_pers)/altura_pers
+            cm_distance_der = (dist_centroides_der*altura_obj)/altura_objPix
+            cm_distance_izq = (dist_centroides_izq*altura_obj)/altura_objPix
 
             mask_l.append(mask)
 
@@ -47,13 +45,13 @@ class Postural_change():
                 print(f"Distancia del hombro der a cirtura der: {cm_distance_der}cm")
                 print(f"Distancia del hombro izq a cirtura izq: {cm_distance_izq}cm")
                 print("Deteccion de posible diferencia de hombro")
-                a = "Deteccion de posible diferencia de hombro"
+                a = "deteccion de posible diferencia de hombro"
                 return mask_l, cm_distance_der, cm_distance_izq, a
             else:
                 print(f"Distancia del hombro der a cirtura der: {cm_distance_der}cm")
                 print(f"Distancia del hombro izq a cirtura izq: {cm_distance_izq}cm")
                 print("No se detecto diferencia de hombro")
-                a = "No se detecto diferencia de hombro"
+                a = "no se detecto diferencia de hombro"
                 return mask_l, cm_distance_der, cm_distance_izq, a
                 
 

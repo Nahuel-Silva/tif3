@@ -3,7 +3,7 @@ import numpy as np
 
 class Person():
 
-    def person_height(self, image_list):
+    def obj_height(self, image_list):
         
         for img in image_list:
 
@@ -37,20 +37,11 @@ class Person():
             pt1 = (int(x1 + w1/2), y1)
             pt2 = (int(x2 + w2/2), y2 + h2)
 
-            cv2.circle(mask, pt1, 5, (0, 0, 255), -1)
-            cv2.circle(mask, pt2, 5, (0, 0, 255), -1)
-
-            distancia = cv2.norm(pt1, pt2)
-
-            # print(distancia)
-
-            # height, width, channels = img.shape
-
-            # print(height)
+            altura = cv2.norm(pt1, pt2)
 
             # Mostrar la imagen con la máscara y el rectángulo dibujado
             # cv2.namedWindow('Máscara', cv2.WINDOW_NORMAL)
             # cv2.imshow('Máscara', mask)
             # cv2.waitKey(0)
             # cv2.destroyAllWindows()
-            return distancia
+            return altura
