@@ -35,8 +35,8 @@ class Export():
             # Agregar la segunda imagen
             pdf_file.drawImage(ImageReader(image), 325, 400, width=3.3*inch, height=3.3*inch)
 
-        dist_1 = f"         Del marcador 3 a 1 hay una distancia de {round(dist_izq)}cm"
-        dist_2 = f"         Del marcador 2 a 0 hay una distancia de {round(dist_der)}cm"
+        dist_1 = f"         Del marcador 4 a 1 hay una distancia de {round(dist_der)}cm"
+        dist_2 = f"         Del marcador 3 a 2 hay una distancia de {round(dist_izq)}cm"
 
         pdf_file.setFont("Helvetica", 14)
         pdf_file.drawString(75, 370, f"Resultado: {result}")

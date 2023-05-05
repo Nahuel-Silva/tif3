@@ -13,25 +13,30 @@ class Postural_change():
             mask_gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
 
             contours, hierarchy = cv2.findContours(mask_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-            for i in range(len(contours)):
-                cv2.drawContours(mask, contours, i, (0, 255, 0), 3)
-                cv2.putText(mask, str(i), tuple(contours[i][0][0]), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
             
-            for cnt in contours:
-                #Dibujo los centroides y agrego las coordenadas a una lista
-                M = cv2.moments(cnt)
-                cx = int(M['m10']/M['m00'])
-                cy = int(M['m01']/M['m00'])
-                cv2.circle(mask, (cx, cy), 5, (255, 0, 0), -1)
-                cord_centroide.append((cx,cy))
+            # Calcula los centroides de los contornos y crea una lista de tuplas que los contiene junto con el índice del contorno
+            for i, contour in enumerate(contours):
+                M = cv2.moments(contour)
+                if M["m00"] != 0:
+                    cx = int(M["m10"] / M["m00"])
+                    cy = int(M["m01"] / M["m00"])
+                    cv2.circle(mask, (cx, cy), 5, (255, 0, 0), -1)
+                    cord_centroide.append((i, (cx, cy)))
+
+            # Ordena los contornos por su centroide en el eje x
+            sorted_centroids = sorted(cord_centroide, key=lambda c: c[0])
+
+            # Enumera los contornos en el orden de la lista ordenada de centroides
+            for i, (index, _) in enumerate(sorted_centroids):
+                cv2.drawContours(mask, contours, index, (0, 255, 0), 2)
+                cv2.putText(mask, str(i+1), sorted_centroids[i][1], cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
             # Dibujo una linea de centroide a centroide de cada uno de los lados
-            cv2.line(mask, cord_centroide[0], cord_centroide[2], (255, 255, 255), 2)
-            cv2.line(mask, cord_centroide[1], cord_centroide[3], (255, 255, 255), 2)
-            
-            dist_centroides_der = np.sqrt((cord_centroide[2][0] - cord_centroide[0][0])**2 + (cord_centroide[2][1] - cord_centroide[0][1])**2)
-            dist_centroides_izq = np.sqrt((cord_centroide[3][0] - cord_centroide[1][0])**2 + (cord_centroide[3][1] - cord_centroide[1][1])**2)
+            cv2.line(mask, sorted_centroids[0][1], sorted_centroids[3][1], (255, 255, 255), 2)
+            cv2.line(mask, sorted_centroids[2][1], sorted_centroids[1][1], (255, 255, 255), 2)
+
+            dist_centroides_der = np.sqrt((sorted_centroids[3][1][0] - sorted_centroids[0][1][0])**2 + (sorted_centroids[3][1][1] - sorted_centroids[0][1][1])**2)
+            dist_centroides_izq = np.sqrt((sorted_centroids[2][1][0] - sorted_centroids[1][1][0])**2 + (sorted_centroids[2][1][1] - sorted_centroids[1][1][1])**2)
 
             #Altura del objeto
             altura_obj = 20
