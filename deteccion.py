@@ -19,6 +19,11 @@ class Detection():
 
             filter_image = cv2.bitwise_and(img, img, mask=mask_green)
 
-            list_mask.append(filter_image)
+            # Aplicar una operación morfológica de apertura para eliminar pequeños objetos en la máscara
+            kernel = np.ones((5,5),np.uint8)
+            mask = cv2.morphologyEx(filter_image, cv2.MORPH_OPEN, kernel)
+            mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+
+            list_mask.append(mask)
 
         return list_mask

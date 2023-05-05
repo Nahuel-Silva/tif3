@@ -7,41 +7,41 @@ class Person():
         
         for img in image_list:
 
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-            # Aplicar un filtro de suavizado para reducir el ruido
-            blur = cv2.GaussianBlur(gray, (5, 5), 0)
+            # Convertir la imagen a espacio de color HSV
+            hsv = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2HSV)
 
-            # Aplicar el detector de bordes Canny
-            edges = cv2.Canny(blur, 100, 200)
+            lower_yellow = np.array([20, 100, 100])
+            upper_yellow = np.array([30, 255, 255])
 
-            # Buscar los contornos
-            contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            yellow_mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
 
-            # Crear una máscara del tamaño de la imagen
-            mask = np.zeros_like(gray)
+            # Aplicar una operación morfológica de apertura para eliminar pequeños objetos en la máscara
+            kernel = np.ones((5,5),np.uint8)
+            mask = cv2.morphologyEx(yellow_mask, cv2.MORPH_OPEN, kernel)
+            mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
 
-            # Dibujar el contorno de la persona en la máscara
-            cv2.drawContours(mask, contours, -1, 255, thickness=2)
+            # Aplicar la máscara a la imagen original para aislar los objetos amarillos
+            result = cv2.bitwise_and(img_rgb, img_rgb, mask=mask)
+
+            mask_gray = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
+
+            # Encontrar los contornos en la máscara
+            contours, hierarchy = cv2.findContours(mask_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
             # for i in range(len(contours)):
-            #     cv2.putText(mask, str(i), tuple(contours[i][0][0]), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+            #     cv2.drawContours(result, contours, i, (0, 255, 0), 3)
+                # cv2.putText(result, str(i), tuple(contours[i][0][0]), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
-            # Encontrar los dos contornos que deseas conectar
-            cnt1 = contours[0]
-            cnt2 = contours[-1]
+            x, y, w, h = cv2.boundingRect(contours[0])
 
-            # Encontrar los puntos extremos para cada contorno
-            x1, y1, w1, h1 = cv2.boundingRect(cnt1)
-            x2, y2, w2, h2 = cv2.boundingRect(cnt2)
-            pt1 = (int(x1 + w1/2), y1)
-            pt2 = (int(x2 + w2/2), y2 + h2)
+            # cv2.rectangle(result, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-            altura = cv2.norm(pt1, pt2)
-
-            # Mostrar la imagen con la máscara y el rectángulo dibujado
+            # Mostrar la máscara
             # cv2.namedWindow('Máscara', cv2.WINDOW_NORMAL)
-            # cv2.imshow('Máscara', mask)
+            # cv2.imshow('Máscara', result)
             # cv2.waitKey(0)
             # cv2.destroyAllWindows()
-            return altura
+            
+            return h
