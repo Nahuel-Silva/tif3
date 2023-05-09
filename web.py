@@ -6,6 +6,7 @@ from deteccion import *
 from postural import *
 from med_objRef import *
 from exportar_pdf import *
+import time
 
 class Main():
 
@@ -32,10 +33,14 @@ class Main():
 
 
     def main(self):
+
         st.set_page_config(page_title="BIO-HELP", layout="wide")
 
+        col1, col2, col3 = st.columns([1, 6, 1])
+
         # Título de la aplicación
-        st.title("Deteccion de alteraciones posturales")
+        with col2:
+            st.title("Deteccion de alteraciones posturales")
 
         # Cargar la imagen
         uploaded_file = st.file_uploader("Cargar imagen del paciente", type=["jpg", "jpeg", "png"])
@@ -50,22 +55,27 @@ class Main():
             image = cv2.imdecode(file_bytes, 1)
             rpg_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             list_ph.append(rpg_img)
+
             # Centrar la imagen
             col1, col2, col3 = st.columns([3, 2, 3])
             with col2:
                 st.image(rpg_img, width=300)
 
             if st.button("Procesar"):
+                #Procesamiento
                 altura_obj = Person().obj_height(list_ph)
                 list_mask = Detection().detection_color(list_ph)
                 mask_l, distance_der, distance_izq, a = Postural_change().shoulders_difference(list_mask, altura_obj)
                 Export.generate_pdf(list_ph, mask_l, distance_der, distance_izq, a)
                 self.mostrar(list_ph, mask_l, distance_der, distance_izq, a)
+
+            #PDF
             data_pdf = self.pdf()
-            name = st.text_input("Ingrese su nombre del paciente: ")
+            name = st.text_input("Ingrese el nombre del paciente: ")
             st.download_button(label="Descargar en PDF",
                 data=data_pdf,
                 file_name=f"{name}.pdf")
+            
         
 
 if __name__ == '__main__':
