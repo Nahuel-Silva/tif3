@@ -30,13 +30,7 @@ class Person():
             # Encontrar los contornos en la máscara
             contours, hierarchy = cv2.findContours(mask_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-            # for i in range(len(contours)):
-            #     cv2.drawContours(result, contours, i, (0, 255, 0), 3)
-                # cv2.putText(result, str(i), tuple(contours[i][0][0]), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
-
             x, y, w, h = cv2.boundingRect(contours[0])
-
-            # cv2.rectangle(result, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
             # Mostrar la máscara
             # cv2.namedWindow('Máscara', cv2.WINDOW_NORMAL)

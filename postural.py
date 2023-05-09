@@ -47,15 +47,15 @@ class Postural_change():
             mask_l.append(mask)
 
             if cm_distance_izq < (cm_distance_der - 1.5) or cm_distance_izq > (cm_distance_der + 1.5):
-                print(f"Distancia del hombro der a cirtura der: {cm_distance_der}cm")
-                print(f"Distancia del hombro izq a cirtura izq: {cm_distance_izq}cm")
-                print("Deteccion de posible diferencia de hombro")
+                # print(f"Distancia del hombro der a cirtura der: {cm_distance_der}cm")
+                # print(f"Distancia del hombro izq a cirtura izq: {cm_distance_izq}cm")
+                # print("Deteccion de posible diferencia de hombro")
                 a = "deteccion de posible diferencia de hombro"
                 return mask_l, cm_distance_der, cm_distance_izq, a
             else:
-                print(f"Distancia del hombro der a cirtura der: {cm_distance_der}cm")
-                print(f"Distancia del hombro izq a cirtura izq: {cm_distance_izq}cm")
-                print("No se detecto diferencia de hombro")
+                # print(f"Distancia del hombro der a cirtura der: {cm_distance_der}cm")
+                # print(f"Distancia del hombro izq a cirtura izq: {cm_distance_izq}cm")
+                # print("No se detecto diferencia de hombro")
                 a = "no se detecto diferencia de hombro"
                 return mask_l, cm_distance_der, cm_distance_izq, a
                 

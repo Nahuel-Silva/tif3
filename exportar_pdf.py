@@ -7,12 +7,12 @@ import cv2
 
 class Export():
 
-    def generate_pdf(image1, image2, dist_der, dist_izq, result, name):
+    def generate_pdf(image1, image2, dist_der, dist_izq, result):
 
         path = "/home/nahuel/facultad/tif3/pdf"
 
         # Crear un nuevo archivo PDF
-        pdf_file = canvas.Canvas(path+"/"+"paciente_"+name, pagesize=letter)
+        pdf_file = canvas.Canvas(path+"/"+"paciente.pdf", pagesize=letter)
 
         pdf_file.setTitle("Deteccion de cambios posturales")
 
