@@ -6,9 +6,21 @@ from deteccion import *
 from postural import *
 from med_objRef import *
 from exportar_pdf import *
-import time
 
 class Main():
+
+    def instructivos(self):
+        image_path = "/home/nahuel/facultad/tif3/utils/intru.jpeg"
+        text_app = """Pasos para usar la app: 
+        \n1) Subir imagen del paciente, de la vista posterior del plano frontal
+        \n2) Apretar en el boton procesar para que detecte si hay una posible diferencia de hombros y realice el informe
+        \n3) Luego si quiere descargar el informe en pdf, coloca el nombre, apreta enter y luego el boton descargar en pdf"""
+        image = cv2.imread(image_path)
+        text_marc = """
+        BUENASSSSSSSSSSSS
+        """
+        return image, text_app, text_marc
+        
 
     def mostrar(self, list_ph, mask_l, distance_der, distance_izq, a):
         col1, col2, col3, col4 = st.columns([2, 2, 2, 2])
@@ -42,39 +54,53 @@ class Main():
         with col2:
             st.title("Deteccion de alteraciones posturales")
 
-        # Cargar la imagen
-        uploaded_file = st.file_uploader("Cargar imagen del paciente", type=["jpg", "jpeg", "png"])
+        img, text, text2 = self.instructivos()
 
-        # Si se carga la imagen
-        if uploaded_file is not None:
-
-            list_ph = []
-
-            # Leer la imagen utilizando OpenCV
-            file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
-            image = cv2.imdecode(file_bytes, 1)
-            rpg_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            list_ph.append(rpg_img)
-
-            # Centrar la imagen
+        with st.expander("Instructivo para colocar los marcadores en el paciente"):
             col1, col2, col3 = st.columns([3, 2, 3])
             with col2:
-                st.image(rpg_img, width=300)
+                st.image(img, width=300)
+            st.write(text2) 
+
+        with st.expander("Instructivo para usar la web app"):
+            st.write(text) 
+
+        # Cargar la imagen
+        uploaded_files = st.file_uploader("Cargar imagen del paciente", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
+
+        list_ph = []
+
+
+        # Si se carga la imagen
+        if uploaded_files is not None:
+
+            for file in uploaded_files:
+                # Leer la imagen utilizando OpenCV
+                file_bytes = np.asarray(bytearray(file.read()), dtype=np.uint8)
+                image = cv2.imdecode(file_bytes, 1)
+                rpg_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                list_ph.append([rpg_img])
+
+                # Centrar la imagen
+                # col1, col2, col3 = st.columns([3, 2, 3])
+                # with col2:
+                #     st.image(rpg_img, width=300)
 
             if st.button("Procesar"):
-                #Procesamiento
-                altura_obj = Person().obj_height(list_ph)
-                list_mask = Detection().detection_color(list_ph)
-                mask_l, distance_der, distance_izq, a = Postural_change().shoulders_difference(list_mask, altura_obj)
-                Export.generate_pdf(list_ph, mask_l, distance_der, distance_izq, a)
-                self.mostrar(list_ph, mask_l, distance_der, distance_izq, a)
+                for list_phh in list_ph:
+                    # Procesamiento
+                    altura_obj = Person().obj_height(list_phh)
+                    list_mask = Detection().detection_color(list_phh)
+                    mask_l, distance_der, distance_izq, a = Postural_change().shoulders_difference(list_mask, altura_obj)
+                    # Export.generate_pdf(list_phh, mask_l, distance_der, distance_izq, a)
+                    self.mostrar(list_phh, mask_l, distance_der, distance_izq, a)
 
             #PDF
-            data_pdf = self.pdf()
-            name = st.text_input("Ingrese el nombre del paciente: ")
-            st.download_button(label="Descargar en PDF",
-                data=data_pdf,
-                file_name=f"{name}.pdf")
+            # data_pdf = self.pdf()
+            # name = st.text_input("Ingrese el nombre del paciente: ")
+            # st.download_button(label="Descargar en PDF",
+            #     data=data_pdf,
+            #     file_name=f"{name}.pdf")
             
         
 
