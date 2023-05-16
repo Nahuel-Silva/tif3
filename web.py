@@ -6,6 +6,8 @@ from deteccion import *
 from postural import *
 from med_objRef import *
 from exportar_pdf import *
+import base64
+
 
 class Main():
 
@@ -39,9 +41,15 @@ class Main():
         st.subheader(f"{dist_2}")
 
     def pdf(self):
-        with open("/home/nahuel/facultad/tif3/pdf/paciente.pdf", "rb") as pdf_file:
-            PDFbyte = pdf_file.read()
+        path = "/home/nahuel/facultad/tif3/pdf/"
+        name = "paciente.pdf"
+        archivo_existe = os.path.join(path, name)
+        if os.path.isfile(archivo_existe):
+            with open(archivo_existe , "rb") as pdf_file:
+                PDFbyte = pdf_file.read()
             return PDFbyte
+        else:
+            pass
 
 
     def main(self):
@@ -70,7 +78,6 @@ class Main():
 
         list_ph = []
 
-
         # Si se carga la imagen
         if uploaded_files is not None:
 
@@ -85,22 +92,28 @@ class Main():
                 # col1, col2, col3 = st.columns([3, 2, 3])
                 # with col2:
                 #     st.image(rpg_img, width=300)
-
+            c = 0
             if st.button("Procesar"):
                 for list_phh in list_ph:
+                    c += 1
                     # Procesamiento
                     altura_obj = Person().obj_height(list_phh)
                     list_mask = Detection().detection_color(list_phh)
                     mask_l, distance_der, distance_izq, a = Postural_change().shoulders_difference(list_mask, altura_obj)
-                    # Export.generate_pdf(list_phh, mask_l, distance_der, distance_izq, a)
+                    Export().generate_pdf(list_phh, mask_l, distance_der, distance_izq, a, c)
                     self.mostrar(list_phh, mask_l, distance_der, distance_izq, a)
+                Export().merge_pdf()
 
             #PDF
-            # data_pdf = self.pdf()
-            # name = st.text_input("Ingrese el nombre del paciente: ")
-            # st.download_button(label="Descargar en PDF",
-            #     data=data_pdf,
-            #     file_name=f"{name}.pdf")
+            data_pdf = self.pdf()
+            name = st.text_input("Ingrese el nombre del paciente: ")
+            if data_pdf is not None:
+                if st.download_button(label="Descargar en PDF",
+                    data=data_pdf,
+                    file_name=f"{name}.pdf"):
+                    Export().clear()
+            else:
+                pass
             
         
 

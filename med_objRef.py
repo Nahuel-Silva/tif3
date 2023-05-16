@@ -31,11 +31,5 @@ class Person():
             contours, hierarchy = cv2.findContours(mask_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
             x, y, w, h = cv2.boundingRect(contours[0])
-
-            # Mostrar la máscara
-            # cv2.namedWindow('Máscara', cv2.WINDOW_NORMAL)
-            # cv2.imshow('Máscara', result)
-            # cv2.waitKey(0)
-            # cv2.destroyAllWindows()
             
             return h

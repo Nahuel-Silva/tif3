@@ -3,16 +3,16 @@ from reportlab.lib.units import inch
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 from PIL import Image
-import cv2
+import os
+from PyPDF2 import PdfMerger
 
 class Export():
 
-    def generate_pdf(image1, image2, dist_der, dist_izq, result):
+    def generate_pdf(self, image1, image2, dist_der, dist_izq, result, c):
 
         path = "/home/nahuel/facultad/tif3/pdf"
-
         # Crear un nuevo archivo PDF
-        pdf_file = canvas.Canvas(path+"/"+"paciente.pdf", pagesize=letter)
+        pdf_file = canvas.Canvas(path+"/"+f"pdf{c}.pdf", pagesize=letter)
 
         pdf_file.setTitle("Deteccion de cambios posturales")
 
@@ -47,3 +47,38 @@ class Export():
 
         # Guardar el archivo PDF
         pdf_file.save()
+    
+    def merge_pdf(self):
+
+        # Directorio que contiene los archivos PDF
+        directorio = "/home/nahuel/facultad/tif3/pdf"
+
+        # Obtener la lista de archivos PDF en el directorio
+        archivos_pdf = [archivo for archivo in os.listdir(directorio) if archivo.endswith(".pdf")]
+
+        # Crear una instancia del objeto PdfFileMerger
+        merger = PdfMerger()
+
+        # Iterar sobre los archivos PDF y agregarlos al objeto merger
+        for archivo_pdf in archivos_pdf:
+            ruta_pdf = os.path.join(directorio, archivo_pdf)
+            merger.append(ruta_pdf)
+
+        # Unir los archivos en uno solo
+        merger.write("/home/nahuel/facultad/tif3/pdf/paciente.pdf")
+
+        # Cerrar el objeto PdfFileMerger
+        merger.close()
+
+    def clear(self):
+        path = "/home/nahuel/facultad/tif3/pdf"
+        if os.path.exists(path):
+            # Obtener una lista de los elementos dentro del directorio (archivos y subdirectorios)
+            elementos = os.listdir(path)
+            # Recorrer cada elemento y eliminarlos
+            for elemento in elementos:
+                ruta_elemento = os.path.join(path, elemento)
+                # Eliminar el archivo
+                os.remove(ruta_elemento)
+
+
