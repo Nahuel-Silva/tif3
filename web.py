@@ -6,7 +6,6 @@ from deteccion import *
 from postural import *
 from med_objRef import *
 from exportar_pdf import *
-import base64
 
 
 class Main():
@@ -92,17 +91,27 @@ class Main():
                 # col1, col2, col3 = st.columns([3, 2, 3])
                 # with col2:
                 #     st.image(rpg_img, width=300)
+
             c = 0
             if st.button("Procesar"):
-                for list_phh in list_ph:
-                    c += 1
-                    # Procesamiento
-                    altura_obj = Person().obj_height(list_phh)
-                    list_mask = Detection().detection_color(list_phh)
-                    mask_l, distance_der, distance_izq, a = Postural_change().shoulders_difference(list_mask, altura_obj)
-                    Export().generate_pdf(list_phh, mask_l, distance_der, distance_izq, a, c)
-                    self.mostrar(list_phh, mask_l, distance_der, distance_izq, a)
-                Export().merge_pdf()
+                with st.spinner('Cargando...'):
+                    for list_phh in list_ph:
+                        c += 1
+                        # Procesamiento
+                        altura_obj = Person().obj_height(list_phh)
+                        if altura_obj == None:
+                            st.warning("¡¡¡CUIDADO: Foto sin objeto de referencia amarillo!!!")
+                            st.stop()
+                        else:
+                            list_mask = Detection().detection_color(list_phh)
+                            if list_mask == None:
+                                st.warning("¡¡¡CUIDADO: Foto del paciente sin marcadores!!!")
+                                st.stop()
+                            else:
+                                mask_l, distance_der, distance_izq, a = Postural_change().shoulders_difference(list_mask, altura_obj)
+                                Export().generate_pdf(list_phh, mask_l, distance_der, distance_izq, a, c)
+                                self.mostrar(list_phh, mask_l, distance_der, distance_izq, a)
+                    Export().merge_pdf()
 
             #PDF
             data_pdf = self.pdf()
