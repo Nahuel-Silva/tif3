@@ -24,23 +24,25 @@ class Main():
         
 
     def mostrar(self, list_ph, mask_l, distance_der, distance_izq, a):
-        col1, col2, col3, col4 = st.columns([2, 2, 2, 2])
-        for img in list_ph:
-            with col2:
-                st.image(img, width=300)
-        for img in mask_l:
-            with col3:
-                st.image(img, width=300)
-        st.subheader("Informe")
-        st.subheader(f"Resultado: {a}")
-        st.subheader("Detalle:")
-        dist_1 = f"         Del marcador 4 a 1 hay una distancia de {round(distance_der)}cm"
-        dist_2 = f"         Del marcador 3 a 2 hay una distancia de {round(distance_izq)}cm"
-        st.subheader(f"{dist_1}")
-        st.subheader(f"{dist_2}")
+        
+        with st.expander(""):
+            col1, col2, col3, col4 = st.columns([2, 2, 2, 2])
+            for img in list_ph:
+                with col2:
+                    st.image(img, width=300)
+            for img in mask_l:
+                with col3:
+                    st.image(img, width=300)
+            st.subheader("Informe")
+            st.subheader(f"Resultado: {a}")
+            st.subheader("Detalle:")
+            dist_1 = f"         Del marcador 4 a 1 hay una distancia de {round(distance_der)}cm"
+            dist_2 = f"         Del marcador 3 a 2 hay una distancia de {round(distance_izq)}cm"
+            st.subheader(f"{dist_1}")
+            st.subheader(f"{dist_2}")
 
     def pdf(self):
-        path = "/home/nahuel/facultad/tif3/pdf/"
+        path = "/home/nahuel/facultad/tif3/pdf_merge/"
         name = "paciente.pdf"
         archivo_existe = os.path.join(path, name)
         if os.path.isfile(archivo_existe):
@@ -112,15 +114,18 @@ class Main():
                                 Export().generate_pdf(list_phh, mask_l, distance_der, distance_izq, a, c)
                                 self.mostrar(list_phh, mask_l, distance_der, distance_izq, a)
                     Export().merge_pdf()
+                    Export().clear()
 
             #PDF
             data_pdf = self.pdf()
             name = st.text_input("Ingrese el nombre del paciente: ")
-            if data_pdf is not None:
-                if st.download_button(label="Descargar en PDF",
-                    data=data_pdf,
-                    file_name=f"{name}.pdf"):
-                    Export().clear()
+            if name:
+                if data_pdf is not None:
+                    st.download_button(label="Descargar en PDF",
+                        data=data_pdf,
+                        file_name=f"{name}.pdf")
+                else:
+                    pass
             else:
                 pass
             

@@ -65,7 +65,7 @@ class Export():
             merger.append(ruta_pdf)
 
         # Unir los archivos en uno solo
-        merger.write("/home/nahuel/facultad/tif3/pdf/paciente.pdf")
+        merger.write("/home/nahuel/facultad/tif3/pdf_merge/paciente.pdf")
 
         # Cerrar el objeto PdfFileMerger
         merger.close()
