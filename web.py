@@ -23,9 +23,9 @@ class Main():
         return image, text_app, text_marc
         
 
-    def mostrar(self, list_ph, mask_l, distance_der, distance_izq, a):
+    def mostrar(self, list_ph, mask_l, distance_der, distance_izq, a, c):
         
-        with st.expander(""):
+        with st.expander(f"Imagen {c}"):
             col1, col2, col3, col4 = st.columns([2, 2, 2, 2])
             for img in list_ph:
                 with col2:
@@ -112,7 +112,7 @@ class Main():
                             else:
                                 mask_l, distance_der, distance_izq, a = Postural_change().shoulders_difference(list_mask, altura_obj)
                                 Export().generate_pdf(list_phh, mask_l, distance_der, distance_izq, a, c)
-                                self.mostrar(list_phh, mask_l, distance_der, distance_izq, a)
+                                self.mostrar(list_phh, mask_l, distance_der, distance_izq, a, c)
                     Export().merge_pdf()
                     Export().clear()
 
