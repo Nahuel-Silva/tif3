@@ -89,10 +89,17 @@ class Main():
                 rpg_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                 list_ph.append([rpg_img])
 
-                # Centrar la imagen
-                # col1, col2, col3 = st.columns([3, 2, 3])
-                # with col2:
-                #     st.image(rpg_img, width=300)
+            # Crear las columnas
+            with st.expander("Imagenes cargas"):
+                # Número de columnas
+                num_columnas = len(uploaded_files)
+                if num_columnas != 0:
+                    columnas = st.columns(num_columnas)
+                    # Mostrar las imágenes en las columnas
+                    for i, columna in enumerate(columnas):
+                        columna.image(uploaded_files[i], use_column_width=True, caption=f"Imagen {i+1}")
+                else:
+                    pass
 
             c = 0
             if st.button("Procesar"):
