@@ -17,8 +17,13 @@ class Main():
         \n2) Apretar en el boton procesar para que detecte si hay una posible diferencia de hombros y realice el informe
         \n3) Luego si quiere descargar el informe en pdf, coloca el nombre, apreta enter y luego el boton descargar en pdf"""
         image = cv2.imread(image_path)
-        text_marc = """
-        BUENASSSSSSSSSSSS
+        text_marc = """Colocación de los marcadores: 
+        \n1) Los dos primeros marcadores se colocan en la articulación acromioclavicular derecha e izquierda 
+        \n2) Y los otros dos marcadores se colocan en la espina ilíaca posterosuperior derecha e izquierda
+        \n\t---------------> LOS MARCADORES DEBEN DE SER DE COLOR VERDE <--------------
+        \n Al momento de tomarle la foto al paciente debe de haber un objeto de referencia de color amarillo
+        de 20cm de alto, esto para que el programa tenga una refencia de un objeto de la vida real y pueda
+        realizar los calculos precisamente.
         """
         return image, text_app, text_marc
         
@@ -65,7 +70,7 @@ class Main():
 
         img, text, text2 = self.instructivos()
 
-        with st.expander("Instructivo para colocar los marcadores en el paciente"):
+        with st.expander("Instructivo para tomarle las fotos al paciente"):
             col1, col2, col3 = st.columns([3, 2, 3])
             with col2:
                 st.image(img, width=300)
