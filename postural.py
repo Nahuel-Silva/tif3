@@ -20,7 +20,7 @@ class Postural_change():
                 if M["m00"] != 0:
                     cx = int(M["m10"] / M["m00"])
                     cy = int(M["m01"] / M["m00"])
-                    cv2.circle(mask, (cx, cy), 5, (255, 0, 0), -1)
+                    cv2.circle(mask, (cx, cy), 5, (0, 0, 255), -1)
                     cord_centroide.append((i, (cx, cy)))
 
             # Ordena los contornos por su centroide en el eje x
