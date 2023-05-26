@@ -4,4 +4,4 @@ PyPDF2==3.0.1
 numpy==1.23.2
 Pillow==9.0.1
 streamlit==1.22.0
-pycairo==1.23.0
+pycairo==1.23.0;
