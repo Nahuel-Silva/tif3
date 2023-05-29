@@ -1,4 +1,4 @@
-libcairo2-dev
+libcairo2-dev==1.16.0
 pkg-config
 python3-dev
 opencv-python==4.7.0.72
