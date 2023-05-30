@@ -60,13 +60,13 @@ class Main():
 
     def main(self):
 
-        st.set_page_config(page_title="BIO-HELP")
+        st.set_page_config(page_title="BIO-HELP", layout="centered")
 
-        col1, col2, col3 = st.columns([0.5,7,0.5])
+        col1, col2, col3 = st.columns([2,4,2])
 
         # Título de la aplicación
         with col2:
-            st.title("Detección de alteraciones posturales")
+            st.title("DETECCIÓN DE ALTERACIONES POSTURALES")
 
         img, text, text2 = self.instructivos()
 
