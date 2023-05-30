@@ -18,8 +18,8 @@ class Main():
         \n2) Presionar en el boton "procesar" para que detecte si hay una posible diferencia de hombros y realice el informe
         \n3) Luego si quiere descargar el informe en pdf, coloca el nombre, apreta enter y luego el boton descargar en pdf"""
         image = cv2.imread(image_path)
-        rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image2 = cv2.imread(image_path2)
+        rgb = cv2.cvtColor(image2, cv2.COLOR_BGR2RGB)
         text_marc2 = """Al momento de tomarle la foto al paciente debe de haber un objeto de referencia de color amarillo
         de 20cm de alto, esto para que el programa tenga una refencia de un objeto de la vida real y pueda
         realizar los calculos precisamente.\n""" 
