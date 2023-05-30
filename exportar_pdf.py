@@ -10,9 +10,9 @@ class Export():
 
     def generate_pdf(self, image1, image2, dist_der, dist_izq, result, c):
 
-        path = "./pdf"
+        path = "./pdf/"
         # Crear un nuevo archivo PDF
-        pdf_file = canvas.Canvas(path+"/"+f"pdf{c}.pdf", pagesize=letter)
+        pdf_file = canvas.Canvas(path+f"pdf{c}.pdf", pagesize=letter)
 
         pdf_file.setTitle("Deteccion de cambios posturales")
 
