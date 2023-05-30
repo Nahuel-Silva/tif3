@@ -11,7 +11,7 @@ from exportar_pdf import *
 class Main():
 
     def instructivos(self):
-        image_path = "/home/nahuel/facultad/tif3/utils/intru.jpeg"
+        image_path = "./utils/intru.jpeg"
         text_app = """Pasos para usar la app: 
         \n1) Subir imagen del paciente, de la vista posterior del plano frontal
         \n2) Apretar en el boton procesar para que detecte si hay una posible diferencia de hombros y realice el informe
