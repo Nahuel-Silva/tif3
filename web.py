@@ -62,10 +62,10 @@ class Main():
 
         st.set_page_config(page_title="BIO-HELP", layout="wide")
 
-        col1, col2, col3, col4, col5, col6 = st.columns(6)
+        col1, col2 = st.columns(2)
 
         # Título de la aplicación
-        with col3:
+        with col2:
             st.title("Detección de alteraciones posturales")
 
         img, text, text2 = self.instructivos()
