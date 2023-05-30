@@ -11,21 +11,22 @@ from exportar_pdf import *
 class Main():
 
     def instructivos(self):
-        image_path = "./utils/intru.jpeg"
+        image_path = "./utils/intru.png"
         text_app = """Pasos para usar la app: 
         \n1) Subir imagen del paciente, de la vista posterior del plano frontal
         \n2) Presionar en el boton "procesar" para que detecte si hay una posible diferencia de hombros y realice el informe
         \n3) Luego si quiere descargar el informe en pdf, coloca el nombre, apreta enter y luego el boton descargar en pdf"""
         image = cv2.imread(image_path)
-        text_marc = """Colocación de los marcadores: 
-        \n1) P3 Y P4 se colocan en la articulación acromioclavicular derecha e izquierda 
-        \n2) P5 Y P6 se colocan en la espina ilíaca posterosuperior derecha e izquierda
-        \n\t---------------> LOS MARCADORES DEBEN DE SER DE COLOR VERDE <--------------
-        \n Al momento de tomarle la foto al paciente debe de haber un objeto de referencia de color amarillo
+        text_marc2 = """Al momento de tomarle la foto al paciente debe de haber un objeto de referencia de color amarillo
         de 20cm de alto, esto para que el programa tenga una refencia de un objeto de la vida real y pueda
-        realizar los calculos precisamente.
+        realizar los calculos precisamente.\n""" 
+        text_marc = """Colocación de los marcadores: 
+        \n1) P1 Y P2 se colocan en la articulación acromioclavicular derecha e izquierda 
+        \n2) P3 Y P4 se colocan en la espina ilíaca posterosuperior derecha e izquierda
+        \n\t---------------> LOS MARCADORES DEBEN DE SER DE COLOR VERDE <--------------
+
         """
-        return image, text_app, text_marc
+        return image, text_app, text_marc, text_marc2
         
 
     def mostrar(self, list_ph, mask_l, distance_der, distance_izq, a, c):
@@ -68,9 +69,10 @@ class Main():
         with col2:
             st.title("DETECCIÓN DE ALTERACIONES POSTURALES")
 
-        img, text, text2 = self.instructivos()
+        img, text, text2, text3 = self.instructivos()
 
         with st.expander("Instructivo para tomarle las fotos al paciente"):
+            st.write(text3) 
             col1, col2, col3 = st.columns([3, 2, 3])
             with col2:
                 st.image(img, width=300)
