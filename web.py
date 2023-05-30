@@ -60,7 +60,7 @@ class Main():
 
     def main(self):
 
-        st.set_page_config(page_title="BIO-HELP", layout="centered")
+        st.set_page_config(page_title="BIO-HELP", layout="fullscreen")
 
         col1, col2, col3 = st.columns([2,4,2])
 
