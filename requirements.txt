@@ -1,4 +1,4 @@
-opencv-python-headless==4.5.3
+opencv-python-headless==4.5.3.56
 reportlab==4.0.0
 PyPDF2==3.0.1
 numpy==1.23.3
