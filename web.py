@@ -47,7 +47,7 @@ class Main():
             st.subheader(f"{dist_2}")
 
     def pdf(self):
-        path = "/home/nahuel/facultad/tif3/pdf_merge/"
+        path = "./pdf_merge/"
         name = "paciente.pdf"
         archivo_existe = os.path.join(path, name)
         if os.path.isfile(archivo_existe):
