@@ -62,7 +62,7 @@ class Main():
 
         st.set_page_config(page_title="BIO-HELP")
 
-        col1, col2, col3 = st.columns([0,8,0])
+        col1, col2, col3 = st.columns([0.5,7,0.5])
 
         # Título de la aplicación
         with col2:
