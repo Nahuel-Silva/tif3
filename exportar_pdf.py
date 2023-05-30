@@ -10,7 +10,7 @@ class Export():
 
     def generate_pdf(self, image1, image2, dist_der, dist_izq, result, c):
 
-        path = "/home/nahuel/facultad/tif3/pdf"
+        path = "./pdf"
         # Crear un nuevo archivo PDF
         pdf_file = canvas.Canvas(path+"/"+f"pdf{c}.pdf", pagesize=letter)
 
@@ -51,7 +51,7 @@ class Export():
     def merge_pdf(self):
 
         # Directorio que contiene los archivos PDF
-        directorio = "/home/nahuel/facultad/tif3/pdf"
+        directorio = "./pdf"
 
         # Obtener la lista de archivos PDF en el directorio
         archivos_pdf = [archivo for archivo in os.listdir(directorio) if archivo.endswith(".pdf")]
@@ -65,13 +65,13 @@ class Export():
             merger.append(ruta_pdf)
 
         # Unir los archivos en uno solo
-        merger.write("/home/nahuel/facultad/tif3/pdf_merge/paciente.pdf")
+        merger.write("./pdf_merge/paciente.pdf")
 
         # Cerrar el objeto PdfFileMerger
         merger.close()
 
     def clear(self):
-        path = "/home/nahuel/facultad/tif3/pdf"
+        path = "./pdf"
         if os.path.exists(path):
             # Obtener una lista de los elementos dentro del directorio (archivos y subdirectorios)
             elementos = os.listdir(path)
