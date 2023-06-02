@@ -29,7 +29,7 @@ class Detection():
             mask_gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
             contours, hierarchy = cv2.findContours(mask_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             
-            if len(contours) != 0:
+            if len(contours) == 4:
                 return list_mask
             else:
                 return None

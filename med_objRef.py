@@ -29,7 +29,7 @@ class Person():
 
             # Encontrar los contornos en la máscara
             contours, hierarchy = cv2.findContours(mask_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-            if len(contours)!= 0:
+            if len(contours) == 1:
                 x, y, w, h = cv2.boundingRect(contours[0])
                 return h
             else:
