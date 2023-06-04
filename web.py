@@ -141,15 +141,15 @@ class Main():
             with st.form(key="myform"):
                 name = st.text_input("Ingrese el nombre del paciente: ")
                 submit_button = st.form_submit_button(label='Enviar')
-                if submit_button:
-                    if data_pdf is not None:
-                        st.download_button(label="Descargar en PDF",
-                            data=data_pdf,
-                            file_name=f"{name}.pdf")
-                    else:
-                        pass
+            if submit_button:
+                if data_pdf is not None:
+                    st.download_button(label="Descargar en PDF",
+                        data=data_pdf,
+                        file_name=f"{name}.pdf")
                 else:
                     pass
+            else:
+                pass
             
         
 
