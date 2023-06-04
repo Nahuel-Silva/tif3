@@ -14,9 +14,9 @@ class Main():
         image_path = "./utils/intru.png"
         image_path2 = "./utils/intru2.png"
         text_app = """Pasos para usar la app: 
-        \n1) Subir imagen del paciente, de la vista posterior del plano frontal
+        \n1) Subir imagen o imagenes del paciente, de la vista posterior del plano frontal
         \n2) Presionar en el boton "procesar" para que detecte si hay una posible diferencia de hombros y realice el informe
-        \n3) Luego si quiere descargar el informe en pdf, coloca el nombre, apreta enter y luego el boton descargar en pdf"""
+        \n3) Luego si quiere descargar el informe en pdf, coloca el nombre, presiona "acpetar" y luego el boton "descargar en pdf" """
         image = cv2.imread(image_path)
         image2 = cv2.imread(image_path2)
         rgb = cv2.cvtColor(image2, cv2.COLOR_BGR2RGB)
@@ -140,7 +140,7 @@ class Main():
             data_pdf = self.pdf()
             with st.form(key="myform"):
                 name = st.text_input("Ingrese el nombre del paciente: ")
-                submit_button = st.form_submit_button(label='Enviar')
+                submit_button = st.form_submit_button(label='Aceptar')
             if submit_button:
                 if data_pdf is not None:
                     st.download_button(label="Descargar en PDF",
