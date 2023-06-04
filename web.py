@@ -16,7 +16,7 @@ class Main():
         text_app = """Pasos para usar la app: 
         \n1) Subir imagen o imagenes del paciente, de la vista posterior del plano frontal
         \n2) Presionar en el boton "procesar" para que detecte si hay una posible diferencia de hombros y realice el informe
-        \n3) Luego si quiere descargar el informe en pdf, coloca el nombre, presiona "acpetar" y luego el boton "descargar en pdf" """
+        \n3) Luego si quiere descargar el informe en pdf, coloca el nombre, presiona "aceptar" y luego el boton "descargar en pdf" """
         image = cv2.imread(image_path)
         image2 = cv2.imread(image_path2)
         rgb = cv2.cvtColor(image2, cv2.COLOR_BGR2RGB)
