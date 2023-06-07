@@ -1,11 +1,13 @@
 import streamlit as st
 import cv2
 import numpy as np
+import io
 from cargar_fotos import *
 from deteccion import *
 from postural import *
 from med_objRef import *
 from exportar_pdf import *
+from exportar_excel import *
 
 
 class Main():
@@ -60,7 +62,22 @@ class Main():
             return PDFbyte
         else:
             pass
+    
+    def excel(self):
 
+        path = './excel/paciente.xlsx'
+        if os.path.isfile(path):
+            df = pd.read_excel(path)
+            # Crear un objeto BytesIO
+            excel_data = io.BytesIO()
+            # Guardar el DataFrame en el objeto BytesIO como un archivo Excel
+            with pd.ExcelWriter(excel_data, engine='xlsxwriter') as writer:
+                df.to_excel(writer, index=False)
+                
+            excel_bytes = excel_data.getvalue()
+            return excel_bytes
+        else:
+            None
 
     def main(self):
 
@@ -114,6 +131,10 @@ class Main():
                 else:
                     pass
 
+            medidas_izq = []
+            medidas_der = []
+            numero_imagenes = []
+
             c = 0
             if st.button("Procesar"):
                 with st.spinner('Cargando...'):
@@ -131,21 +152,39 @@ class Main():
                                 st.stop()
                             else:
                                 mask_l, distance_der, distance_izq, a = Postural_change().shoulders_difference(list_mask, altura_obj)
+                                medidas_der.append(round(distance_der))
+                                medidas_izq.append(round(distance_izq))
+                                numero_imagenes.append(f"Imagen{c}")
                                 Export().generate_pdf(list_phh, mask_l, distance_der, distance_izq, a, c)
                                 self.mostrar(list_phh, mask_l, distance_der, distance_izq, a, c)
                     Export().merge_pdf()
+                    ExportExcel().generate_csv(medidas_izq, medidas_der, numero_imagenes)
                     Export().clear()
 
+            #Excel
+            data_excel = self.excel()
             #PDF
             data_pdf = self.pdf()
             with st.form(key="myform"):
                 name = st.text_input("Ingrese el nombre del paciente: ")
                 submit_button = st.form_submit_button(label='Aceptar')
             if submit_button:
+
                 if data_pdf is not None:
-                    st.download_button(label="Descargar en PDF",
-                        data=data_pdf,
-                        file_name=f"{name}.pdf")
+                    if data_excel is not None:
+                        
+                        #Boton de PDF
+                        st.download_button(label="Descargar en PDF",
+                            data=data_pdf,
+                            file_name=f"{name}.pdf")
+                        
+                        #Boton de excel
+                        st.download_button(label="Descargar Excel",
+                            data=data_excel,
+                            file_name=f"{name}.xlsx", 
+                            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+                    else:
+                        pass
                 else:
                     pass
             else:
