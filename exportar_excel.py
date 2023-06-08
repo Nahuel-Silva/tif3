@@ -8,8 +8,8 @@ class ExportExcel():
         
         data = {
             "numero imagen":c,
-            "medida del lado izquierdo":f"{med_izq}cm",
-            "medida del lado derecho":f"{med_der}cm",
+            "medida del lado izquierdo (cm)":med_izq,
+            "medida del lado derecho (cm)":med_der,
             "fecha": datetime.datetime.now()
         }
 
