@@ -128,7 +128,7 @@ class Main():
                     columnas = st.columns(num_columnas)
                     # Mostrar las imágenes en las columnas
                     for i, columna in enumerate(columnas):
-                        columna.image(uploaded_files[i], use_column_width=True, caption=f"Imagen {i+1}")
+                        columna.image(uploaded_files[i], use_container_width=True, caption=f"Imagen {i+1}")
                 else:
                     pass
 
